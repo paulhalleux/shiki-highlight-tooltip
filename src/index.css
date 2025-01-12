@@ -17,10 +17,17 @@
   width: 50%;
 
   pre {
-    padding: 16px;
+    padding: 16px 0;
     border-radius: 5px;
     font-size: 16px;
     border: 1px solid #323232;
+  }
+
+  .line {
+    width: 100%;
+    display: inline-flex;
+    height: 24px;
+    align-items: center;
   }
 }
 
@@ -142,4 +149,17 @@
     list-style-type: decimal;
     margin-left: 16px;
   }
+}
+
+.line-number {
+  display: inline-block;
+  width: 40px;
+  text-align: right;
+  color: #666;
+  padding-right: 8px;
+  user-select: none;
+}
+
+.line-odd {
+  background-color: #151515;
 }

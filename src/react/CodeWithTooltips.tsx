@@ -4,11 +4,13 @@ import { useAsync } from "react-use";
 import { ExtraProps, toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { codeToHast } from "shiki";
 
+import { createLineNumbersTransformer } from "../core/line-numbers-transformer.ts";
+import { createLineOddTransformer } from "../core/line-odd-transformer.ts";
 import {
   createTooltipTransformer,
   isTooltipTrigger,
   TooltipConfig,
-} from "../core";
+} from "../core/tooltip-transformer.ts";
 
 import { Tooltip } from "./Tooltip.tsx";
 
@@ -19,11 +21,14 @@ type CodeWithTooltipsProps = {
 
 export function CodeWithTooltips({ code, highlight }: CodeWithTooltipsProps) {
   const { value } = useAsync(async () => {
-    const transformer = createTooltipTransformer(highlight || []);
     return await codeToHast(code.trim(), {
       lang: "tsx",
-      theme: "vesper",
-      transformers: [transformer],
+      theme: "vitesse-dark",
+      transformers: [
+        createTooltipTransformer(highlight || []),
+        createLineNumbersTransformer(),
+        createLineOddTransformer(),
+      ],
     });
   }, [highlight]);
 
