@@ -1,8 +1,4 @@
-import { useCallback } from "react";
-import { codeToHtml } from "shiki";
-
-import { createTooltipTransformer } from "./core";
-import { useAsync } from "./useAsync.ts";
+import { CodeWithTooltips } from "./react/CodeWithTooltips.tsx";
 
 import "./index.css";
 
@@ -17,38 +13,25 @@ export default App;
 `;
 
 function App() {
-  const { value } = useAsync(
-    useCallback(() => {
-      return codeToHtml(CODE.trim(), {
-        lang: "tsx",
-        theme: "vesper",
-        transformers: [
-          createTooltipTransformer([
+  return (
+    <div className="app">
+      <div className="container">
+        <CodeWithTooltips
+          code={CODE}
+          highlight={[
             {
               regex: /App/g,
               title: "App",
-              content: `
-                # This is the App component
-                
-                The App component is the main component of the application.
-                
-                ## Props
-                
-                - None
-              `,
+              content: "The main component of the application.",
             },
-          ]),
-        ],
-      });
-    }, []),
-  );
-
-  return (
-    <div className="app">
-      <div
-        className="container"
-        dangerouslySetInnerHTML={{ __html: value ?? "" }}
-      />
+            {
+              regex: /return/g,
+              title: "return",
+              content: "The JSX that will be rendered.",
+            },
+          ]}
+        />
+      </div>
     </div>
   );
 }
